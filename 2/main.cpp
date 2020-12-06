@@ -20,6 +20,7 @@ int main(void) {
 	time_t t = time(NULL);
 	srand(t);
 	cout << "t = " << t << endl;
+	//Комментарий
 
 	int n;
 	cin >> n;
