@@ -37,7 +37,7 @@ public:
 		elements.resize(size);
 	}
 	List<T> operator*(vector<T> v) {
-		unsigned m = max(v.size(), this->operator());
+		unsigned m = min(v.size(), this->elements.size());
 		List<T> ret(this->elements);
 		for (int i = 0; i < m; ++ i) {
 			ret[i] = this->elements[i] * v[i];

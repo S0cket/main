@@ -1,0 +1,21 @@
+#ifndef __ERROR_H__
+#define __ERROR_H__
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class error {
+private:
+	string msg;
+public:
+	error(string msg) {
+		this->msg = msg;
+	}
+	void what() {
+		cerr << msg << "\n";
+	}
+};
+
+#endif //(__ERROR_H__)

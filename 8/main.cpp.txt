@@ -1,0 +1,59 @@
+#include <iostream>
+#include <set>
+#include <stdarg.h>
+#include "error.h"
+
+using namespace std;
+
+class Set {
+private:
+	set<int> elements;
+public:
+	Set() {}
+	Set(int n, ...) {
+		va_list args;
+		va_start(args, n);
+		for (int i = 0; i < n; ++ i)
+			elements.insert(va_arg(args, int));
+		va_end(args);
+	}
+	Set(set<int> elements) {
+		this->elements = elements;
+	}
+	void print() {
+		for (auto iter = this->elements.begin(); iter != this->elements.end(); ++ iter) {
+			cout << *iter << " ";
+		}
+		cout << "\n";
+	}
+	set<int> getset() {
+		return this->elements;
+	}
+	int operator[](unsigned index) {
+		if (index >= this->elements.size()) throw error("Index Error\n");
+		int i = 0;
+		for (auto iter = this->elements.begin(); iter != this->elements.end(); ++ iter, ++ i) {
+			if (i == index)
+				return *iter;
+		}
+		return *(elements.begin());
+	}
+	bool operator==(Set S) {
+		return (this->elements == S.getset());
+	}
+	bool operator>(int n) {
+		return (this->elements.count(n));
+	}
+
+
+	~Set() {}
+};
+
+int main(void) {
+	Set a(3, 1, 2, 3), b(4, 3, 2, 1, 3);
+	a.print();
+	b.print();
+	cout << (a == b) << endl;
+	cout << a[3] << endl;
+	return 0;
+}
