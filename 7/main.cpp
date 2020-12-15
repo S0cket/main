@@ -1,0 +1,81 @@
+#include <iostream>
+#include <vector>
+#include <stdarg.h>
+#include <stdlib.h>
+
+using namespace std;
+
+template<class T>
+class List {
+private:
+	vector<T> elements;
+public:
+	List() {}
+	List(int n, ...) {
+		va_list args;
+		va_start(args, n);
+		for (int i = 0; i < n; ++ i) {
+			elements.push_back(va_arg(args, int));
+		}
+		va_end(args);
+	}
+	List(vector<T> elements) {
+		this->elements = elements;
+	}
+
+	T& operator[](unsigned index) {
+		if (index >= elements.size()) {
+			cout << "Index Error\n";
+			exit(1);
+		}
+		return elements[index];
+	}
+	unsigned operator()() {
+		return elements.size();
+	}
+	void operator()(unsigned size) {
+		elements.resize(size);
+	}
+	List<T> operator*(vector<T> v) {
+		unsigned m = max(v.size(), this->operator());
+		List<T> ret(this->elements);
+		for (int i = 0; i < m; ++ i) {
+			ret[i] = this->elements[i] * v[i];
+		}
+		return ret;
+	}
+
+	~List() {}
+};
+
+template<class T1, class T2>
+class Pair {
+public:
+	T1 first;
+	T2 second;
+	Pair() {}
+	Pair(T1 first, T2 second) {
+		this->first = first;
+		this->second = second;
+	}
+
+	void print() {
+		cout << first << ":" << second << endl;
+	}
+
+	~Pair() {}
+};
+
+void print(List<int> l) {
+	for (int i = 0; i < l(); ++ i)
+		cout << l[i] << " ";
+	cout << "\n";
+}
+
+int main(void) {
+	List<int> a(3, 1, 2, 3);
+	print(a);
+	Pair<int, double> p(1, 3.0);
+	p.print();
+	return 0;
+}
